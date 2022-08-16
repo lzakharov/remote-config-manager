@@ -22,6 +22,13 @@ func (e *Editor) Render() app.UI {
 			),
 		),
 		metro.Row(
+			metro.Cell3(
+				metro.TextInput().
+					Disabled(true).
+					Attr("data-cls-input", "text-bold fg-black").
+					Attr("data-prepend", "Name:").
+					Value(e.key),
+			),
 			metro.Cell(
 				metro.ContainerFluid(
 					metro.Button().

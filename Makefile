@@ -17,7 +17,7 @@ build/backend:
 .PHONY: build/frontend
 build/frontend:
 	@rm -f $(web)/app.wasm
-	@npm install --prefix $(web)
+	@npm install --silent --prefix $(web)
 	@GOOS=js GOARCH=wasm go build -o $(web)/app.wasm cmd/frontend/main.go
 	@go build -o $(bin)/frontend cmd/frontend/main.go
 
