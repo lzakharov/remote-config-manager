@@ -25,10 +25,9 @@ func (e *Editor) Render() app.UI {
 		),
 		metro.Row(
 			metro.Cell(
-				metro.TextInput().
-					ReadOnly(true).
+				metro.PrependedTextInput("Name:").
 					Attr("data-cls-input", "text-bold fg-black").
-					Attr("data-prepend", "Name:").
+					ReadOnly(true).
 					Value(e.key),
 			),
 			metro.Cell(
