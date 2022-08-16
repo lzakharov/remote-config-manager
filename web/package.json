@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "metro4": "^4.5.1",
+    "monaco-editor": "^0.34.0"
+  }
+}
