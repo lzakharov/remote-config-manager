@@ -1,6 +1,8 @@
 package components
 
 import (
+	"fmt"
+
 	"github.com/lzakharov/remote-config-manager/pkg/components/metro"
 	"github.com/lzakharov/remote-config-manager/pkg/service"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -22,9 +24,9 @@ func (e *Editor) Render() app.UI {
 			),
 		),
 		metro.Row(
-			metro.Cell3(
+			metro.Cell(
 				metro.TextInput().
-					Disabled(true).
+					ReadOnly(true).
 					Attr("data-cls-input", "text-bold fg-black").
 					Attr("data-prepend", "Name:").
 					Value(e.key),
@@ -83,6 +85,11 @@ func (e *Editor) onRefresh(_ app.Context, _ app.Event) {
 }
 
 func (e *Editor) refresh() {
+	if e.key == "" {
+		app.Window().Get("editor").Call("setValue", "")
+		return
+	}
+
 	value, err := service.Get(e.key)
 	if err != nil {
 		handleErr(err)
@@ -98,6 +105,8 @@ func (e *Editor) onSave(_ app.Context, _ app.Event) {
 	if err != nil {
 		handleErr(err)
 	}
+
+	metro.Notify(fmt.Sprintf("%q saved", e.key), "success", false)
 }
 
 func (e *Editor) onClose(ctx app.Context, _ app.Event) {

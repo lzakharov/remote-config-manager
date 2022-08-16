@@ -1,11 +1,9 @@
 package components
 
-import "github.com/maxence-charriere/go-app/v9/pkg/app"
+import (
+	"github.com/lzakharov/remote-config-manager/pkg/components/metro"
+)
 
 func handleErr(err error) {
-	app.Window().Get("Metro").Get("notify").
-		Call("create", err.Error(), nil, map[string]interface{}{
-			"cls":      "alert",
-			"keepOpen": true,
-		})
+	metro.Notify(err.Error(), "alert", true)
 }
