@@ -16,6 +16,7 @@ type Node struct {
 	Tree  Tree
 }
 
+// IsLeaf reports whether node is a leaf.
 func (n Node) IsLeaf() bool {
 	return len(n.Tree) == 0
 }

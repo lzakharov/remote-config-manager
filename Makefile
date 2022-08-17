@@ -6,20 +6,28 @@ web         := web
 bin         := $(target)/bin
 reports     := $(target)/reports
 
+## generate: Run generators.
+.PHONY: generate
+generate: go/generate
+
+.PHONY: go/generate
+go/generate:
+	@go generate ./...
+
 ## build: Compile binaries.
 .PHONY: build
-build: build/backend build/frontend
+build: build/server build/ui
 
-.PHONY: build/backend
-build/backend:
-	@go build -o $(bin)/backend cmd/backend/main.go
+.PHONY: build/server
+build/server:
+	@go build -o $(bin)/server cmd/server/main.go
 
-.PHONY: build/frontend
-build/frontend:
+.PHONY: build/ui
+build/ui:
 	@rm -f $(web)/app.wasm
 	@npm install --silent --prefix $(web)
-	@GOOS=js GOARCH=wasm go build -o $(web)/app.wasm cmd/frontend/main.go
-	@go build -o $(bin)/frontend cmd/frontend/main.go
+	@GOOS=js GOARCH=wasm go build -o $(web)/app.wasm cmd/ui/main.go
+	@go build -o $(bin)/ui cmd/ui/main.go
 
 $(reports):
 	@mkdir -p $@

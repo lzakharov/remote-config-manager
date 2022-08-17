@@ -97,15 +97,17 @@ func (e *Editor) refresh() {
 	app.Window().Get("editor").Call("setValue", value)
 }
 
-func (e *Editor) onSave(_ app.Context, _ app.Event) {
+func (e *Editor) onSave(ctx app.Context, _ app.Event) {
 	value := app.Window().Get("editor").Call("getValue").String()
 
-	err := service.Put(e.key, value)
-	if err != nil {
-		handleErr(err)
-	}
+	ctx.Async(func() {
+		err := service.Put(e.key, value)
+		if err != nil {
+			handleErr(err)
+		}
 
-	metro.Notify(fmt.Sprintf("%q saved", e.key), "success", false)
+		metro.Notify(fmt.Sprintf("%q saved", e.key), "success", false)
+	})
 }
 
 func (e *Editor) onClose(ctx app.Context, _ app.Event) {
