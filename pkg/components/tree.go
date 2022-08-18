@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	"github.com/lzakharov/remote-config-manager/pkg/filetree"
-	"github.com/lzakharov/remote-config-manager/pkg/service"
+	"github.com/lzakharov/remote-config-manager/pkg/transport"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
 
 	"github.com/lzakharov/remote-config-manager/pkg/components/metro"
@@ -16,11 +16,27 @@ type Tree struct {
 }
 
 func (t *Tree) Render() app.UI {
-	keys := service.ListKeys()
+	keys, err := transport.ListKeys()
+	if err != nil {
+		handleErr(err)
+	}
+
 	sort.Strings(keys)
 
-	return metro.TreeView(
-		t.build(filetree.Build(keys))...,
+	return metro.ContainerFluid(
+		metro.Row(
+			metro.Cell(
+				app.P().Class("text-bold").Body(
+					app.Text("Keys"),
+				),
+			),
+		),
+		app.Hr(),
+		metro.Row(
+			metro.TreeView(
+				t.build(filetree.Build(keys))...,
+			),
+		),
 	)
 }
 

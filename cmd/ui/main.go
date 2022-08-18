@@ -22,6 +22,9 @@ func main() {
 		Name:        "remote-config-manager",
 		Description: "Remote Configuration Manager UI",
 		Author:      "Lev Zakharov",
+		Icon: app.Icon{
+			Default: "/web/icon.png",
+		},
 		Styles: []string{
 			"/web/node_modules/metro4/build/css/metro-all.min.css",
 			"/web/node_modules/monaco-editor/min/vs/editor/editor.main.css",
